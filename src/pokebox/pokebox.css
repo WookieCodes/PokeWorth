@@ -1,0 +1,92 @@
+h3 {
+    margin: 0;
+}
+
+.pokebox-title {
+    text-align: center;
+}
+
+.pokebox-answer-yes {
+    color: green;
+}
+
+.pokebox-answer-no {
+    color: red;
+}
+
+.pokebox-wrapper {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgb(205,205,205);
+    margin: 0 0 15px;
+}
+
+.pokebox-wrapper:hover {
+    cursor: pointer;
+}
+
+.top-half {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 30px 0;
+}
+
+#pokebox-wrapper-special span span {
+    color: rgb(225, 170, 121);
+}
+
+#pokebox-wrapper-great span span {
+    color: rgb(118, 202, 200);
+}
+
+#pokebox-wrapper-ultra span span {
+    color: rgb(226, 197, 77);
+}
+
+#pokebox-wrapper-adventure span span {
+    color: rgb(149, 77, 226);
+}
+
+.pokebox-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.pokebox-stats {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.want-header {
+    text-decoration: underline;
+}
+
+.wanted-item-in-box {
+    color: rgb(129, 129, 129);
+}
+
+.card {
+    background-color: unset;
+    border: none;
+}
+
+.card-body-wrapper .box-savings {
+    display: block;
+    text-align: center;
+    padding-bottom: 10px;
+}
+
+.btn {
+    display: block;
+    margin: 0 0 0 10px !important;
+}
+
+
+@media(max-width:469px) {
+    .pokebox-wrapper .pokebox-title {
+        font-size: 1.3rem;
+    }
+}

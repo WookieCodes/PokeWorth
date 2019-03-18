@@ -1,0 +1,42 @@
+html, body {
+  font-family: 'Righteous', cursive;
+  background-color: rgb(36,37,38);
+  color: rgb(205,205,205);
+}
+
+p {
+  font-family: 'Roboto', sans-serif;
+  color: rgb(129, 129, 129);
+}
+
+.boxes-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.how-to {
+  margin-bottom: 2rem;
+}
+
+.worth-title {
+  text-align: center;
+  margin-top: 3.5rem;
+}
+
+.berry-troll {
+  margin-top: 15px;
+  display: none;
+}
+
+.berry-troll h2 {
+  color: rgb(255, 29, 33);
+}
+
+.berry-troll p {
+  color: rgb(129, 129, 129);
+}
+
+.star-piece-disclaimer p{
+  font-size: .8rem;
+  text-align: center;
+}
