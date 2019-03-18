@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import './title.css';
 
-class Title extends Component {
+export default class Title extends Component {
     render() {
         return(
             <section className="main-title">
@@ -12,5 +12,3 @@ class Title extends Component {
         )
     }
 }
-
-export default Title;

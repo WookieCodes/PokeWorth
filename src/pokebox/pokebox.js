@@ -3,7 +3,7 @@ import { Collapse, Button, CardBody, Card } from 'reactstrap';
 import './pokebox.css';
 import ContentBox from '../content-box/content-box';
 
-// let itemList = ["Raid Passes", "Super Incubators", "Egg Incubators", "Lucky Eggs", "Star Pieces", "Incenses", "Lure Modules", "Berries"];
+var form = document.getElementById("chooseOptions");
 
 // Base costs of buying from shop
 var passesShopPrice = 100;
@@ -19,8 +19,20 @@ var specialBoxPrice = 480;
 var greatBoxPrice = 780;
 var ultraBoxPrice = 1480;
 
+// Lists of items
+var userSelections = [];
+let itemList = ["Raid Passes", "Super Incubators", "Egg Incubators", "Lucky Eggs", "Star Pieces", "Incenses", "Lure Modules", "Berries"];
+var shopPrices = [passesShopPrice, superShopPrice, incubatorShopPrice, eggsShopPrice, starPiecesShopPrice, incenseShopPrice, luresShopPrice, berriesShopPrice];
+
+// Used to calculate avg prices in boxes
+var numCheckedBoxes = 0;
+var numRelevantItems = 0;
+
+
+
+
 //***************************************************************//
-class PokeBox extends Component {
+export default class PokeBox extends Component {
     constructor(props) {
         super(props);
 
@@ -34,13 +46,66 @@ class PokeBox extends Component {
         //Bind functions
         this.Toggle = this.Toggle.bind(this);
         this.DisplayBoxDetails = this.DisplayBoxDetails.bind(this);
+        this.CountRelevantItems = this.CountRelevantItems.bind(this);
     }
 
     Toggle() {
         this.setState(state => ({ collapse: !state.collapse }));
     }
+    
+    //===========================================================
+    // Count the number of items in the box that the user is
+    // interested in.
+    //===========================================================
+    CountRelevantItems = () => {
+        var total = 0;
+        
+        for (var x = 0; x < this.props.contents.length; x++) {
+            if (userSelections[x] && (this.props.contents[x] > 0)) {
+                total += this.props.contents[x];
+            }
+        }
+        
+        return total;
+    }
+    
+    //===========================================================
+    // Calculate a single box's efficiency
+    //===========================================================
+    BoxEfficiency = () => {
+        var itemQuantities = this.props.contents;
 
-    DisplayBoxDetails() {
+        numRelevantItems = this.CountRelevantItems();
+    }
+
+    //===========================================================
+    // Count the number of boxes the user has checked.
+    //===========================================================
+    CountCheckedBoxes = () => {
+        userSelections = [];
+        var count = 0;
+        
+        // Get the checked state of each check box and store it in the array
+        userSelections.push(document.getElementById("RaidPasses").checked);
+        userSelections.push(document.getElementById("SuperIncubators").checked);
+        userSelections.push(document.getElementById("EggIncubators").checked);
+        userSelections.push(document.getElementById("LuckyEggs").checked);
+        userSelections.push(document.getElementById("StarPieces").checked);
+        userSelections.push(document.getElementById("Incenses").checked);
+        userSelections.push(document.getElementById("LureModules").checked);
+        userSelections.push(document.getElementById("Berries").checked);
+        
+        for (var x = 0; x < userSelections.length; x++) {
+            if (userSelections[x] === true)
+                count += 1;
+        }
+        
+        console.log(count)
+
+        return count;
+    }
+
+    DisplayBoxDetails = () => {
         var normalValue = 100;
         var boxValue = 50;
         return(
@@ -55,7 +120,7 @@ class PokeBox extends Component {
         )
     }
 
-    SetPokeboxTitle() {
+    SetPokeboxTitle = () => {
         return (<h3 className="pokebox-title">{this.state.name.toUpperCase()} BOX: <span id={"pokebox-" + this.state.name} className={"pokebox-answer"+((this.state.isWorth === true) ? "-yes" : "-no")}>{(this.state.isWorth === true) ? "YES" : "NO"}</span></h3>);
     }
 
@@ -85,5 +150,3 @@ class PokeBox extends Component {
         )
     }
 }
-
-export default PokeBox;

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Form, FormGroup, Input, Label} from 'reactstrap';
 import './selection-list.css';
 
-class SelectionList extends Component {
+export default class SelectionList extends Component {
     constructor(props) {
         super(props);
 
@@ -42,5 +42,3 @@ class SelectionList extends Component {
         );
     }
 }
-
-export default SelectionList;
