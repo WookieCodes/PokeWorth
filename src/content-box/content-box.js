@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import './content-box.css';
 
-
 let itemList = ["Raid Passes", "Super Incubators", "Egg Incubators", "Lucky Eggs", "Star Pieces", "Incenses", "Lure Modules", "Berries"];
 
 class ContentBox extends Component {
@@ -16,7 +15,9 @@ class ContentBox extends Component {
     DisplayBoxContents() {
         var totalItemsInBox = 0;
 
-        const boxContentsHTML = this.props.contents.map((quantity, index) => {
+        const itemQuantities = Object.values(this.props.contents);
+
+        const boxContentsHTML = itemQuantities.map((quantity, index) => {
             if(parseInt(quantity, 10) > 0) {
                 totalItemsInBox += quantity;
                 return (<span key={index} className='item-content'><span> {quantity} </span> {itemList[index]} </span>)

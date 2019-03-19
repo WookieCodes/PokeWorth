@@ -5,31 +5,13 @@ import ContentBox from '../content-box/content-box';
 
 var form = document.getElementById("chooseOptions");
 
-// Base costs of buying from shop
-var passesShopPrice = 100;
-var superShopPrice = 200;
-var incubatorShopPrice = 150;
-var eggsShopPrice = 80;
-var starPiecesShopPrice = 80; /* Giving price of 80 to match other 30 min buffs in shop (eggs/incenses) */
-var incenseShopPrice = 80;
-var luresShopPrice = 100;
-var berriesShopPrice = 0;
-
-var specialBoxPrice = 480;
-var greatBoxPrice = 780;
-var ultraBoxPrice = 1480;
 
 // Lists of items
 var userSelections = [];
-let itemList = ["Raid Passes", "Super Incubators", "Egg Incubators", "Lucky Eggs", "Star Pieces", "Incenses", "Lure Modules", "Berries"];
-var shopPrices = [passesShopPrice, superShopPrice, incubatorShopPrice, eggsShopPrice, starPiecesShopPrice, incenseShopPrice, luresShopPrice, berriesShopPrice];
 
 // Used to calculate avg prices in boxes
 var numCheckedBoxes = 0;
 var numRelevantItems = 0;
-
-
-
 
 //***************************************************************//
 export default class PokeBox extends Component {
@@ -39,7 +21,7 @@ export default class PokeBox extends Component {
         this.state = {
                         name: this.props.name.toLowerCase(),
                         contents: this.props.contents,
-                        isWorth: true,
+                        isWorth: false,
                         collapse: false
                     };
 
@@ -61,7 +43,7 @@ export default class PokeBox extends Component {
         var total = 0;
         
         for (var x = 0; x < this.props.contents.length; x++) {
-            if (userSelections[x] && (this.props.contents[x] > 0)) {
+            if (this.props.userSelections[x].checked && (this.props.contents[x] > 0)) {
                 total += this.props.contents[x];
             }
         }
@@ -82,21 +64,10 @@ export default class PokeBox extends Component {
     // Count the number of boxes the user has checked.
     //===========================================================
     CountCheckedBoxes = () => {
-        userSelections = [];
         var count = 0;
         
-        // Get the checked state of each check box and store it in the array
-        userSelections.push(document.getElementById("RaidPasses").checked);
-        userSelections.push(document.getElementById("SuperIncubators").checked);
-        userSelections.push(document.getElementById("EggIncubators").checked);
-        userSelections.push(document.getElementById("LuckyEggs").checked);
-        userSelections.push(document.getElementById("StarPieces").checked);
-        userSelections.push(document.getElementById("Incenses").checked);
-        userSelections.push(document.getElementById("LureModules").checked);
-        userSelections.push(document.getElementById("Berries").checked);
-        
-        for (var x = 0; x < userSelections.length; x++) {
-            if (userSelections[x] === true)
+        for (var x = 0; x < this.props.userSelections.length; x++) {
+            if (this.props.userSelections[x].checked === true)
                 count += 1;
         }
         
@@ -137,7 +108,7 @@ export default class PokeBox extends Component {
                         <Card>
                             <CardBody>
                                 <div className="pokebox-details">
-                                    <ContentBox name="special" contents = {this.state.contents}/>
+                                    <ContentBox name="special" contents = {this.props.contents}/>
                                     {this.DisplayBoxDetails()}
                                 </div>
                             </CardBody>

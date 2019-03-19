@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import {Form, FormGroup, Input, Label} from 'reactstrap';
+import {Form} from 'reactstrap';
 import './selection-list.css';
+import Checkbox from '../checkbox/checkbox';
 
 export default class SelectionList extends Component {
     constructor(props) {
@@ -10,17 +11,15 @@ export default class SelectionList extends Component {
         this.createSelectionList = this.createSelectionList.bind(this);
     }
 
+    onListChanged = e => {
+        this.props.onSelectedChange(e);
+    }
+
     createSelectionList() {
-        const list = this.props.boxNames.map((option, index) =>
-            <div className="col-xl col-lg-3 col-6" key={index}>
-                <FormGroup check inline className="input-group-text" key={index}>
-                    <Label check className="labelText">
-                        {option}<br></br><Input type="checkbox" id={option.replace(/\s+/g, '')}/> 
-                    </Label>
-                </FormGroup>
-            </div>
+        const list = this.props.checkboxes.map((box, index) => 
+                <Checkbox label={box.itemName} isChecked={box.checked} key={box.itemName} onCheckChange={this.onListChanged}/>
         )
-        
+
         return list;
     }
 
