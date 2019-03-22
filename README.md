@@ -9,6 +9,7 @@ The user selects which items they want to purchase by marking the checkboxes. Ba
  1. User clicks on the items from the list of checkboxes to trigger calculations.
  2. User clicks on the Pok&eacute;Boxes to shrink and expand the amount of detail shown. 
 
+Test Change.
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTAzMzcwMzE1NF19
+eyJoaXN0b3J5IjpbLTE4NTI5ODc2OCwxMDMzNzAzMTU0XX0=
 -->
