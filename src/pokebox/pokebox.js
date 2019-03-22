@@ -3,15 +3,7 @@ import { Collapse, Button, CardBody, Card } from 'reactstrap';
 import './pokebox.css';
 import ContentBox from '../content-box/content-box';
 
-var form = document.getElementById("chooseOptions");
-
-
-// Lists of items
-var userSelections = [];
-
 // Used to calculate avg prices in boxes
-var numCheckedBoxes = 0;
-var numRelevantItems = 0;
 
 //***************************************************************//
 export default class PokeBox extends Component {
@@ -19,16 +11,28 @@ export default class PokeBox extends Component {
         super(props);
 
         this.state = {
-                        name: this.props.name.toLowerCase(),
-                        contents: this.props.contents,
+                        itemQuantities: Object.values(this.props.contents),
                         isWorth: false,
-                        collapse: false
+                        collapse: false,
+                        results: {
+                            normalCostPer: 0,
+                            boxCostPer: 0,
+                            savingsPerc: 0
+                        }
                     };
 
         //Bind functions
         this.Toggle = this.Toggle.bind(this);
         this.DisplayBoxDetails = this.DisplayBoxDetails.bind(this);
         this.CountRelevantItems = this.CountRelevantItems.bind(this);
+        this.CalcNormalPrice = this.CalcNormalPrice.bind(this);
+        this.DoBoxCalculations = this.DoBoxCalculations.bind(this);
+    }
+
+    componentWillReceiveProps = () => {
+        this.DoBoxCalculations();
+
+
     }
 
     Toggle() {
@@ -41,23 +45,38 @@ export default class PokeBox extends Component {
     //===========================================================
     CountRelevantItems = () => {
         var total = 0;
-        
-        for (var x = 0; x < this.props.contents.length; x++) {
-            if (this.props.userSelections[x].checked && (this.props.contents[x] > 0)) {
-                total += this.props.contents[x];
-            }
-        }
-        
-        return total;
-    }
-    
-    //===========================================================
-    // Calculate a single box's efficiency
-    //===========================================================
-    BoxEfficiency = () => {
-        var itemQuantities = this.props.contents;
+        var itemNames = []; 
 
-        numRelevantItems = this.CountRelevantItems();
+        this.props.userSelections.map((obj, index) => {
+            if (obj.checked && (this.state.itemQuantities[index] > 0)) {
+                total += parseInt(this.state.itemQuantities[index],10);
+                itemNames.push(obj.itemName);
+            }
+            return null;
+        });
+
+        return ({
+            value: total,
+            itemNames: itemNames
+        });
+    }
+
+    //===========================================================
+    // Calculate the price it would cost to purchase the items
+    // from the shop via individual purchases, only if the user 
+    // wants it
+    //===========================================================
+    CalcNormalPrice = () => {
+        var normalPrice = 0;
+
+        this.props.userSelections.map((obj, index) => {
+            if (obj.checked && (this.state.itemQuantities[index] > 0)) {
+                normalPrice += parseInt(this.state.itemQuantities[index] * obj.cost, 10);
+            }
+            return null;
+        });
+
+        return normalPrice;
     }
 
     //===========================================================
@@ -70,52 +89,87 @@ export default class PokeBox extends Component {
             if (this.props.userSelections[x].checked === true)
                 count += 1;
         }
-        
-        console.log(count)
 
         return count;
     }
 
-    DisplayBoxDetails = () => {
-        var normalValue = 100;
-        var boxValue = 50;
-        return(
-            <div className="pokebox-stats">
-                <div>
-                    <span className='want-header'>{"Things you want"}</span><br></br>
-                    <span className='wanted-item-in-box'>{"Example 1"}<br></br><br></br></span>
-                    <span className='cost-label'>{"Normal cost per item: "} <span className="cost-value">{normalValue}</span><br></br></span>
-                    <span className='cost-label'>{"Box cost per item: "} <span className="cost-value">{boxValue}</span><br></br></span>
+    DoBoxCalculations = () => {
+        var normalCostPer = Math.round(this.CalcNormalPrice() / this.CountRelevantItems().value);
+        var boxCostPer = Math.round(this.props.price /this.CountRelevantItems().value);
+        // console.log(this.props.name + " norm: " + normalCostPer + "; Box: " + boxCostPer);
+        
+        var savingsPerc = Math.round((1 - (boxCostPer / normalCostPer)) * 100);
+        // console.log("Savings: " + savingsPerc);
+
+        this.setState({
+            isWorth: (savingsPerc > 0),
+            results: {
+            normalCostPer: normalCostPer,
+            boxCostPer: boxCostPer,
+            savingsPerc: savingsPerc
+            }
+        });
+    }
+
+    DisplayBoxStats = () => {
+        if (this.CountRelevantItems().value > 0) {
+            const wantedItems = this.CountRelevantItems().itemNames.map((obj, index) => {
+                return(
+                    <div key={index}>
+                        <span className='wanted-item-in-box'>{obj}</span><br></br>
+                    </div>
+                )
+            })
+
+            return (
+                <div className="pokebox-stats">
+                    <span className='want-header'>Things you want</span>
+                    {wantedItems}
+                    <br></br>
+                    <span className='cost-label'>Normal cost per item: <span className="cost-value">{this.state.results.normalCostPer}</span><br></br></span>
+                    <span className='cost-label'>Box cost per item: <span className="cost-value">{this.state.results.boxCostPer}</span><br></br></span>
                 </div>
+            );
+        } else {
+            return (
+                <div className="pokebox-stats">
+                    <span>Box has nothing you want.</span>
+                </div>
+            )
+        }
+    }
+
+    DisplayBoxDetails = () => {
+        return(            
+            <div className="card-body-wrapper">
+                <Collapse isOpen={this.state.collapse}>         
+                <Card>
+                    <CardBody>
+                        <div className="pokebox-details">
+                            <ContentBox name="special" contents = {this.props.contents}/>
+                            {this.DisplayBoxStats()}
+                        </div>
+                    </CardBody>
+                </Card>
+                </Collapse>
+                <span className='box-savings'>{"Total Savings: "}<span>{this.state.isWorth ? this.state.results.savingsPerc + "%" : "NONE"}</span></span>
             </div>
         )
     }
 
     SetPokeboxTitle = () => {
-        return (<h3 className="pokebox-title">{this.state.name.toUpperCase()} BOX: <span id={"pokebox-" + this.state.name} className={"pokebox-answer"+((this.state.isWorth === true) ? "-yes" : "-no")}>{(this.state.isWorth === true) ? "YES" : "NO"}</span></h3>);
+        return (<h3 className="pokebox-title">{this.props.name.toUpperCase()} BOX: <span id={"pokebox-" + this.props.name} className={"pokebox-answer"+((this.state.isWorth === true) ? "-yes" : "-no")}>{(this.state.isWorth === true) ? "YES" : "NO"}</span></h3>);
     }
 
     render() {
         return(
-            <div className="pokebox-outer-wrapper col-lg-6 col-sm-12" id={"pokebox-wrapper-" + this.state.name}>
+            <div className="pokebox-outer-wrapper col-lg-6 col-sm-12" id={"pokebox-wrapper-" + this.props.name.toLowerCase()}>
                 <div className="pokebox-wrapper" onClick={this.Toggle}>
                     <div className="top-half">
                         {this.SetPokeboxTitle()}
-                        <Button color="secondary" size="sm" style={{ marginBottom: '1rem' }}>{this.state.collapse ? "-" : "+"}</Button>
+                        <Button color="secondary" size="sm" style={{ marginBottom: '1rem' }}>{this.props.collapse ? "-" : "+"}</Button>
                     </div>
-                    <div className="card-body-wrapper">
-                        <Collapse isOpen={this.state.collapse}>
-                        <Card>
-                            <CardBody>
-                                <div className="pokebox-details">
-                                    <ContentBox name="special" contents = {this.props.contents}/>
-                                    {this.DisplayBoxDetails()}
-                                </div>
-                            </CardBody>
-                        </Card>
-                        </Collapse>
-                        <span className='box-savings'> {"Total Savings: "} <span>{123}%</span></span>
-                    </div>
+                    {this.DisplayBoxDetails()}
                 </div>
             </div>
         )

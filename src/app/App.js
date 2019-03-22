@@ -48,25 +48,24 @@ class App extends Component {
 					itemName: "Lure Modules",
 					cost: 100,
 					checked: false
-				}, 
-				{
-					itemName: "Berries",
-					cost: 0,
-					checked: false
 				}
+				
 			],
 			contentBoxes: [
 				{
 					boxName: "Special",
 					contents: {
-						raidPasses: 4,
+						raidPasses: 2,
 						superIncs: 0,
-						eggIncs: 1,
-						luckyEggs: 3,
+						eggIncs: 2,
+						luckyEggs: 1,
 						starPieces: 0,
 						incenses: 0,
 						lures: 0,
-						berries: 0
+						berries: 0,
+						pokeBalls: 0,
+						greatBalls: 0,
+						ultraBalls: 20
 					},
 					price: 480,
 					isActive: true
@@ -74,14 +73,17 @@ class App extends Component {
 				{
 					boxName: "Great",
 					contents: {
-						raidPasses: 6,
-						superIncs: 2,
+						raidPasses: 3,
+						superIncs: 4,
 						eggIncs: 0,
-						luckyEggs: 3,
-						starPieces: 4,
+						luckyEggs: 0,
+						starPieces: 6,
 						incenses: 0,
 						lures: 0,
-						berries: 0
+						berries: 10,
+						pokeBalls: 0,
+						greatBalls: 0,
+						ultraBalls: 0
 					},
 					price: 780,
 					isActive: true
@@ -89,14 +91,17 @@ class App extends Component {
 				{
 					boxName: "Ultra",
 					contents: {
-						raidPasses: 15,
-						superIncs: 6,
+						raidPasses: 16,
+						superIncs: 3,
 						eggIncs: 0,
-						luckyEggs: 0,
-						starPieces: 8,
-						incenses: 7,
-						lures: 0,
-						berries: 0
+						luckyEggs: 4,
+						starPieces: 0,
+						incenses: 0,
+						lures: 3,
+						berries: 0,
+						pokeBalls: 0,
+						greatBalls: 0,
+						ultraBalls: 0
 					},
 					price: 1480,
 					isActive: true
@@ -105,15 +110,15 @@ class App extends Component {
 					boxName: "Adventure",
 					contents: {
 						raidPasses: 0,
-						superIncs: 11,
-						eggIncs: 5,
-						luckyEggs: 0,
-						starPieces: 8,
-						incenses: 7,
-						lures: 0,
+						superIncs: 12,
+						eggIncs: 2,
+						luckyEggs: 4,
+						starPieces: 0,
+						incenses: 0,
+						lures: 3,
 						berries: 0
 					},
-					price: 480,
+					price: 1480,
 					isActive: true
 				}, 
 			]
@@ -134,7 +139,7 @@ class App extends Component {
 	renderPokeboxes = () => {
 		const boxesToShow = this.state.contentBoxes.map( (box) => {
 			if (box.isActive) {
-				return (<PokeBox key={box.boxName} name={box.boxName} contents={box.contents}/>);
+				return (<PokeBox key={box.boxName} name={box.boxName} contents={box.contents} price={box.price} userSelections={this.state.checkboxes}/>);
 			}
 			return null;
 		})

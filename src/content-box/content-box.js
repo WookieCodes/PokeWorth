@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import './content-box.css';
 
-let itemList = ["Raid Passes", "Super Incubators", "Egg Incubators", "Lucky Eggs", "Star Pieces", "Incenses", "Lure Modules", "Berries"];
+let itemList = ["Raid Passes", "Super Incubators", "Egg Incubators", "Lucky Eggs", "Star Pieces", "Incenses", "Lure Modules", "Berries", "Pokeballs", "Great Balls", "Ultra Balls"];
 
 class ContentBox extends Component {
 
