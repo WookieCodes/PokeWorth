@@ -1,0 +1,39 @@
+.cl-wrapper {
+    position: relative;
+    transition: all .15s ease-in;
+}
+
+.cl-wrapper:hover {
+    transform: scale(1.10);
+}
+
+#twitch-span:hover #twitch-circle,
+#discord-span:hover #discord-circle,
+#twitter-span:hover #twitter-circle,
+#instagram-span:hover #instagram-circle,
+#github-span:hover #github-circle {
+    transition: color .5s ease;
+    color: #f5f5f5;
+    border-radius: 50%;
+    /* border: 2px solid #2A2D32; */
+}
+
+#github-span:hover #github {
+    color: #181515;
+}
+
+#twitch-span:hover #twitch{
+    color: #6441a4;
+}
+
+#discord-span:hover #discord {
+    color: #7289DA;
+}
+
+#twitter-span:hover #twitter {
+    color: #1DA1F3;
+}
+
+#instagram-span:hover #instagram {
+    color: #F00075;
+}

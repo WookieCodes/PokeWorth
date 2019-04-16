@@ -27,6 +27,7 @@ export default class PokeBox extends Component {
         this.CountRelevantItems = this.CountRelevantItems.bind(this);
         this.CalcNormalPrice = this.CalcNormalPrice.bind(this);
         this.DoBoxCalculations = this.DoBoxCalculations.bind(this);
+        this.convertBoxName = this.convertBoxName.bind(this);
     }
 
     componentWillReceiveProps = () => {
@@ -157,13 +158,18 @@ export default class PokeBox extends Component {
         )
     }
 
+    convertBoxName = () => {
+        var convertedName = this.props.name.replace(" ", "-").toLowerCase();
+        return convertedName;
+    }
+
     SetPokeboxTitle = () => {
-        return (<h3 className="pokebox-title">{this.props.name.toUpperCase()} BOX: <span id={"pokebox-" + this.props.name} className={"pokebox-answer"+((this.state.isWorth === true) ? "-yes" : "-no")}>{(this.state.isWorth === true) ? "YES" : "NO"}</span></h3>);
+        return (<h3 className="pokebox-title">{this.props.name.toUpperCase()} BOX: <span id={"pokebox-" + this.convertBoxName()} className={"pokebox-answer"+((this.state.isWorth === true) ? "-yes" : "-no")}>{(this.state.isWorth === true) ? "YES" : "NO"}</span></h3>);
     }
 
     render() {
         return(
-            <div className="pokebox-outer-wrapper col-lg-6 col-sm-12" id={"pokebox-wrapper-" + this.props.name.toLowerCase()}>
+            <div className="pokebox-outer-wrapper col-lg-6 col-sm-12" id={"pokebox-wrapper-" + this.convertBoxName()}>
                 <div className="pokebox-wrapper" onClick={this.Toggle}>
                     <div className="top-half">
                         {this.SetPokeboxTitle()}

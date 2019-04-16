@@ -4,6 +4,11 @@ html, body {
   color: rgb(205,205,205);
 }
 
+hr {
+  border-top: 1px solid rgba(205,205,205, 0.5);
+  margin-bottom: 0;
+}
+
 p {
   font-family: 'Roboto', sans-serif;
   color: rgb(129, 129, 129);
@@ -39,4 +44,8 @@ p {
 .star-piece-disclaimer p{
   font-size: .8rem;
   text-align: center;
+}
+
+.footer-wrapper {
+  height: calc(100vh - 819px);
 }

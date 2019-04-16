@@ -48,6 +48,10 @@ h3 {
     color: rgb(149, 77, 226);
 }
 
+#pokebox-wrapper-community-day span span {
+    color: rgb(77, 226, 186);
+}
+
 .pokebox-details {
     display: flex;
     flex-direction: column;

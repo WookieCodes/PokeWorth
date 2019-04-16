@@ -7,6 +7,7 @@ import './App.css';
 import Title from '../title/title';
 import SelectionList from '../selection-list/selection-list';
 import PokeBox from '../pokebox/pokebox';
+import LinkList from '../link-list/link-list';
 
 class App extends Component {
 	constructor(props) {
@@ -55,9 +56,9 @@ class App extends Component {
 				{
 					boxName: "Special",
 					contents: {
-						raidPasses: 2,
-						superIncs: 0,
-						eggIncs: 2,
+						raidPasses: 0,
+						superIncs: 1,
+						eggIncs: 3,
 						luckyEggs: 1,
 						starPieces: 0,
 						incenses: 0,
@@ -65,7 +66,7 @@ class App extends Component {
 						berries: 0,
 						pokeBalls: 0,
 						greatBalls: 0,
-						ultraBalls: 20
+						ultraBalls: 0
 					},
 					price: 480,
 					isActive: true
@@ -73,14 +74,14 @@ class App extends Component {
 				{
 					boxName: "Great",
 					contents: {
-						raidPasses: 3,
+						raidPasses: 2,
 						superIncs: 4,
 						eggIncs: 0,
-						luckyEggs: 0,
-						starPieces: 6,
+						luckyEggs: 5,
+						starPieces: 0,
 						incenses: 0,
 						lures: 0,
-						berries: 10,
+						berries: 0,
 						pokeBalls: 0,
 						greatBalls: 0,
 						ultraBalls: 0
@@ -91,13 +92,13 @@ class App extends Component {
 				{
 					boxName: "Ultra",
 					contents: {
-						raidPasses: 16,
-						superIncs: 3,
+						raidPasses: 15,
+						superIncs: 7,
 						eggIncs: 0,
 						luckyEggs: 4,
-						starPieces: 0,
+						starPieces: 4,
 						incenses: 0,
-						lures: 3,
+						lures: 0,
 						berries: 0,
 						pokeBalls: 0,
 						greatBalls: 0,
@@ -110,17 +111,38 @@ class App extends Component {
 					boxName: "Adventure",
 					contents: {
 						raidPasses: 0,
-						superIncs: 12,
-						eggIncs: 2,
+						superIncs: 14,
+						eggIncs: 3,
 						luckyEggs: 4,
-						starPieces: 0,
+						starPieces: 4,
 						incenses: 0,
-						lures: 3,
-						berries: 0
+						lures: 0,
+						berries: 0,
+						pokeBalls: 0,
+						greatBalls: 0,
+						ultraBalls: 0
 					},
 					price: 1480,
 					isActive: true
 				}, 
+				{
+					boxName: "Community Day",
+					contents: {
+						raidPasses: 0,
+						superIncs: 3,
+						eggIncs: 0,
+						luckyEggs: 3,
+						starPieces: 0,
+						incenses: 0,
+						lures: 1,
+						berries: 0,
+						pokeBalls: 0,
+						greatBalls: 0,
+						ultraBalls: 30
+					},
+					price: 480,
+					isActive: false
+				}
 			]
 		}
 	}
@@ -148,6 +170,10 @@ class App extends Component {
 	}
 
 	render() {
+        var mySocials = [
+			{ name: "twitter", url: "https://www.twitter.com/pokeworth" }
+        ];
+
 		return (
 			<div className="App">
 				<Title />
@@ -183,7 +209,19 @@ class App extends Component {
 						<p>Note: Since star pieces can't be bought individually in the shop, we have assigned the same cost of 80 Pokécoins as other 30 minute items (Lucky Eggs/Incenses). This is to prevent skewing calculations by thinking a valuable item is "free".</p>
 					</div>
 				</section>
-
+						<hr></hr>
+			
+				<section className="socials-section">
+						<div className="container">
+							<div className="footer-wrapper row">
+								<div className="col-12 align-self-center">
+									<div>
+										<LinkList className="justify-content-center" links={mySocials} bkgdColor="#F5F5F5" iconColor="#2A2D32"/>
+									</div>
+								</div>
+							</div>
+						</div>
+				</section>
 			</div>
 		);
 	}
